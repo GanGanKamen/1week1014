@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerCtrl : MonoBehaviour
 {
     private Character character;
+    private bool verticalTrigger = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -14,7 +15,14 @@ public class PlayerCtrl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        KeyCtrl();
+        if(SystemCtrl.canCtrl == true)
+        {
+            KeyCtrl();
+        }
+        if(Input.GetAxis("Vertical") == 0&&verticalTrigger == true)
+        {
+            verticalTrigger = false;
+        }
     }
 
     private void KeyCtrl()
@@ -22,6 +30,11 @@ public class PlayerCtrl : MonoBehaviour
         if (Input.GetAxis("Horizontal") != 0)
         {
             character.CharacterMove(Input.GetAxis("Horizontal"));
+        }
+        if(Input.GetAxis("Vertical") > 0 && character.onDoor != null && verticalTrigger == false)
+        {
+            verticalTrigger = true;
+            character.UseDoor();
         }
     }
 }
