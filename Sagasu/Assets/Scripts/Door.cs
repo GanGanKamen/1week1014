@@ -43,9 +43,10 @@ public class Door : MonoBehaviour
         {
             yield return null;
         }
-
         character.transform.position = nextDoor.transform.position;
         character.gameObject.SetActive(false);
+        yield return new WaitForSeconds(1f);
+        
         fade.fadeSwitch = 2;
         while (fade.fadeSwitch != 0)
         {
