@@ -8,7 +8,8 @@ public class Item : MonoBehaviour
     {
         hand,
         foot,
-        wing
+        wing,
+        head
     }
 
     public PartsCategory partsCategory;

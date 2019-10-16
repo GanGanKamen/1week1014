@@ -9,10 +9,12 @@ public class Character : MonoBehaviour
     [SerializeField] private GameObject hands;
     [SerializeField] private GameObject foots;
     [SerializeField] private GameObject wing;
-
+    [SerializeField] private GameObject head;
+    [SerializeField] private Eyes eyes;
     public bool hasHands = false;
     public bool hasFoots = false;
     public bool hasWing = false;
+    public bool hasHead = false;
 
     private float prePosX;
     private bool direction;
@@ -20,6 +22,7 @@ public class Character : MonoBehaviour
     public Door onDoor;
 
     [SerializeField] private bool canJump;
+    [SerializeField] private float jumpPower;
 
     public float hp;
     public float partHp;
@@ -80,6 +83,10 @@ public class Character : MonoBehaviour
         {
             foots.SetActive(true);
         }
+        if(hasHead == true && head.activeSelf == false)
+        {
+            head.SetActive(true);
+        }
     }
 
     public void CharacterMove(float moveDirection)
@@ -97,7 +104,7 @@ public class Character : MonoBehaviour
     {
         if (hasFoots == false||canJump == false) return;
         Debug.Log("Jump");
-        GetComponent<Rigidbody2D>().AddForce(new Vector2(0, 10f),ForceMode2D.Impulse);
+        GetComponent<Rigidbody2D>().AddForce(new Vector2(0, jumpPower),ForceMode2D.Impulse);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -116,7 +123,6 @@ public class Character : MonoBehaviour
                 case Item.PartsCategory.foot:
                     if(hasFoots == false)
                     {
-                        transform.Translate(0, 0.7f, 0);
                         hasFoots = true;
                     }
                     break;
@@ -124,6 +130,13 @@ public class Character : MonoBehaviour
                     if(hasWing == false)
                     {
                         hasWing = true;
+                    }
+                    break;
+                case Item.PartsCategory.head:
+                    if(hasHead == false)
+                    {
+                        hasHead = true;
+                        eyes.Flash();
                     }
                     break;
             }

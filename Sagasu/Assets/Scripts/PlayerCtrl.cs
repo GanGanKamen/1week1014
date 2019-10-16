@@ -33,16 +33,22 @@ public class PlayerCtrl : MonoBehaviour
         }
         if(Input.GetAxis("Vertical") > 0 && verticalTrigger == false)
         {
-            if (character.onDoor != null)
-            {
-                character.UseDoor();
-            }
-            else if(character.hasFoots == true)
+
+            if(character.hasFoots == true)
             {
                 character.Jump();
             }
             verticalTrigger = true;
             
+        }
+        else if(Input.GetAxis("Vertical") < 0 && verticalTrigger == false)
+        {
+            if (character.onDoor != null)
+            {
+                character.UseDoor();
+                
+            }
+            verticalTrigger = true;
         }
     }
 }
