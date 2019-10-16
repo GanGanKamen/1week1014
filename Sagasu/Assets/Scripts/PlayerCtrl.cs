@@ -31,10 +31,18 @@ public class PlayerCtrl : MonoBehaviour
         {
             character.CharacterMove(Input.GetAxis("Horizontal"));
         }
-        if(Input.GetAxis("Vertical") > 0 && character.onDoor != null && verticalTrigger == false)
+        if(Input.GetAxis("Vertical") > 0 && verticalTrigger == false)
         {
+            if (character.onDoor != null)
+            {
+                character.UseDoor();
+            }
+            else if(character.hasFoots == true)
+            {
+                character.Jump();
+            }
             verticalTrigger = true;
-            character.UseDoor();
+            
         }
     }
 }

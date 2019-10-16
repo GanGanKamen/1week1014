@@ -18,11 +18,20 @@ public class Character : MonoBehaviour
     private bool direction;
 
     public Door onDoor;
+
+    [SerializeField] private bool canJump;
+
+    public float hp;
+    public float partHp;
+
+    [SerializeField] private float hpDecrease;
+    [SerializeField] private HpCtrl hpCtrl;
     // Start is called before the first frame update
     void Start()
     {
         prePosX = transform.position.x;
         direction = true;
+        partHp = hp;
     }
 
     // Update is called once per frame
@@ -30,6 +39,12 @@ public class Character : MonoBehaviour
     {
         Direction();
         PartsDocking();
+    }
+
+    private void HpDecrease()
+    {
+        if (SystemCtrl.canCtrl == false || hp <= 0) return;
+        hp -= hpDecrease * Time.deltaTime;
     }
 
     private void Direction()
@@ -46,6 +61,7 @@ public class Character : MonoBehaviour
                 direction = false;
                 body.transform.eulerAngles = new Vector3(0, 180, 0);
             }
+            HpDecrease();
             prePosX = transform.position.x;
         }
     }
@@ -77,6 +93,13 @@ public class Character : MonoBehaviour
         onDoor.UseDoor(this);
     }
 
+    public void Jump()
+    {
+        if (hasFoots == false||canJump == false) return;
+        Debug.Log("Jump");
+        GetComponent<Rigidbody2D>().AddForce(new Vector2(0, 10f),ForceMode2D.Impulse);
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Item"))
@@ -104,7 +127,21 @@ public class Character : MonoBehaviour
                     }
                     break;
             }
+            hpCtrl.HpPlus();
             Destroy(collision.gameObject);
+        }
+
+        if (collision.CompareTag("Jump"))
+        {
+            canJump = true;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Jump"))
+        {
+            canJump = false;
         }
     }
 }
