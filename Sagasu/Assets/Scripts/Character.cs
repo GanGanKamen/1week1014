@@ -35,6 +35,7 @@ public class Character : MonoBehaviour
         prePosX = transform.position.x;
         direction = true;
         partHp = hp;
+        canJump = false;
     }
 
     // Update is called once per frame
@@ -42,6 +43,7 @@ public class Character : MonoBehaviour
     {
         Direction();
         PartsDocking();
+        Debug.Log(canJump);
     }
 
     private void HpDecrease()
@@ -169,6 +171,7 @@ public class Character : MonoBehaviour
         if (collision.CompareTag("Jump"))
         {
             canJump = true;
+            Debug.Log("jumpEnter");
         }
     }
 
@@ -177,6 +180,7 @@ public class Character : MonoBehaviour
         if (collision.CompareTag("Jump"))
         {
             canJump = false;
+            Debug.Log("jumpExit");
         }
     }
 
