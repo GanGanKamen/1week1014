@@ -89,6 +89,28 @@ public class Character : MonoBehaviour
         }
     }
 
+    private IEnumerator Damaged(Enemy enemy)
+    {
+        if (enemy.pattern != Enemy.Pattern.Patrol) yield break;
+        Debug.Log("Hit");
+        enemy.pattern = Enemy.Pattern.Stop;
+        SystemCtrl.canCtrl = false;
+        hp -= 10;
+        if(enemy.transform.position.x > transform.position.x)
+        {
+            GetComponent<Rigidbody2D>().AddForce(new Vector2(-jumpPower/2, jumpPower/2), ForceMode2D.Impulse);
+        }
+        else
+        {
+            GetComponent<Rigidbody2D>().AddForce(new Vector2(jumpPower / 2, jumpPower / 2), ForceMode2D.Impulse);
+        }
+
+        yield return new WaitForSeconds(3f);
+        SystemCtrl.canCtrl = true;
+        yield return new WaitForSeconds(1f);
+        enemy.pattern = Enemy.Pattern.Patrol;
+    }
+
     public void CharacterMove(float moveDirection)
     {
         transform.Translate(moveDirection * moveSpeed * Time.deltaTime, 0, 0);
@@ -155,6 +177,15 @@ public class Character : MonoBehaviour
         if (collision.CompareTag("Jump"))
         {
             canJump = false;
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy") && SystemCtrl.canCtrl == true)
+        {
+            Enemy enemy = collision.gameObject.GetComponent<Enemy>();
+            StartCoroutine(Damaged(enemy));
         }
     }
 }
