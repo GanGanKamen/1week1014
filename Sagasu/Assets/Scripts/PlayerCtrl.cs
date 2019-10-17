@@ -23,6 +23,8 @@ public class PlayerCtrl : MonoBehaviour
         {
             verticalTrigger = false;
         }
+
+        MutekiKey();
     }
 
     private void KeyCtrl()
@@ -49,6 +51,18 @@ public class PlayerCtrl : MonoBehaviour
                 
             }
             verticalTrigger = true;
+        }
+    }
+
+    private void MutekiKey()
+    {
+        if (Input.GetKeyDown(KeyCode.M) && character.muteki == false)
+        {
+            character.muteki = true;
+            foreach(GameObject enemy in GameObject.FindGameObjectsWithTag("Enemy"))
+            {
+                enemy.GetComponent<BoxCollider2D>().enabled = false;
+            }
         }
     }
 }

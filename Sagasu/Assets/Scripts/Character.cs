@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Character : MonoBehaviour
 {
+    private Rigidbody2D rb;
+
     [SerializeField] private float moveSpeed;
     [SerializeField] private GameObject body;
     [SerializeField] private GameObject hands;
@@ -29,9 +31,16 @@ public class Character : MonoBehaviour
 
     [SerializeField] private float hpDecrease;
     [SerializeField] private HpCtrl hpCtrl;
+
+    public bool flying = false;
+
+    [SerializeField] private Collider2D[] colliders;
+
+    public bool muteki = false;
     // Start is called before the first frame update
     void Start()
     {
+        rb = GetComponent<Rigidbody2D>();
         prePosX = transform.position.x;
         direction = true;
         partHp = hp;
@@ -43,12 +52,12 @@ public class Character : MonoBehaviour
     {
         Direction();
         PartsDocking();
-        Debug.Log(canJump);
+        if(flying == true) Fly();
     }
 
     private void HpDecrease()
     {
-        if (SystemCtrl.canCtrl == false || hp <= 0) return;
+        if (SystemCtrl.canCtrl == false || hp <= 0 || muteki == true) return;
         hp -= hpDecrease * Time.deltaTime;
     }
 
@@ -100,11 +109,11 @@ public class Character : MonoBehaviour
         hp -= 10;
         if(enemy.transform.position.x > transform.position.x)
         {
-            GetComponent<Rigidbody2D>().AddForce(new Vector2(-jumpPower/2, jumpPower/2), ForceMode2D.Impulse);
+            rb.AddForce(new Vector2(-jumpPower/2, jumpPower/5), ForceMode2D.Impulse);
         }
         else
         {
-            GetComponent<Rigidbody2D>().AddForce(new Vector2(jumpPower / 2, jumpPower / 2), ForceMode2D.Impulse);
+            rb.AddForce(new Vector2(jumpPower / 2, jumpPower / 5), ForceMode2D.Impulse);
         }
 
         yield return new WaitForSeconds(3f);
@@ -128,7 +137,18 @@ public class Character : MonoBehaviour
     {
         if (hasFoots == false||canJump == false) return;
         Debug.Log("Jump");
-        GetComponent<Rigidbody2D>().AddForce(new Vector2(0, jumpPower),ForceMode2D.Impulse);
+        rb.AddForce(new Vector2(0, jumpPower),ForceMode2D.Impulse);
+    }
+
+    private void Fly()
+    {
+        if (rb.isKinematic == false) rb.isKinematic = true;
+        if(SystemCtrl.canCtrl == true) SystemCtrl.canCtrl = false;
+        for (int i = 0; i < colliders.Length; i++)
+        {
+            if(colliders[i].isTrigger == false)colliders[i].isTrigger = true;
+        }
+        transform.Translate(0, moveSpeed * 2 * Time.deltaTime, 0);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -173,6 +193,11 @@ public class Character : MonoBehaviour
             canJump = true;
             Debug.Log("jumpEnter");
         }
+
+        if (collision.CompareTag("Wind") && hasWing == true && flying == false && SystemCtrl.canCtrl == true)
+        {
+            flying = true;
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -188,6 +213,7 @@ public class Character : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemy") && SystemCtrl.canCtrl == true)
         {
+            if (muteki == true) return;
             Enemy enemy = collision.gameObject.GetComponent<Enemy>();
             StartCoroutine(Damaged(enemy));
         }

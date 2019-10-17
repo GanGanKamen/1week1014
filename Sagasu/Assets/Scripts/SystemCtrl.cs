@@ -8,6 +8,9 @@ public class SystemCtrl : MonoBehaviour
 
     static public GameObject fadeCanvas;
     static public GameObject HpBar;
+
+    [SerializeField] private Character player;
+    [SerializeField] private UnityEngine.UI.Text log;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,6 +23,15 @@ public class SystemCtrl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        GameOver();
+    }
+
+    private void GameOver()
+    {
+        if(player.hp <= 0 && canCtrl == true)
+        {
+            log.text = "Game Over";
+            canCtrl = false;
+        }
     }
 }
