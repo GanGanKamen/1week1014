@@ -44,7 +44,7 @@ public class Door : MonoBehaviour
             yield return null;
         }
         character.transform.position = nextDoor.transform.position;
-        character.gameObject.SetActive(false);
+        character.body.SetActive(false);
         yield return new WaitForSeconds(1f);
         
         fade.fadeSwitch = 2;
@@ -62,8 +62,9 @@ public class Door : MonoBehaviour
         {
             yield return null;
         }
-        character.gameObject.SetActive(true);
+        character.body.SetActive(true);
         SystemCtrl.canCtrl = true;
+        character.onDoor = nextDoor;
         yield break;
     }
 

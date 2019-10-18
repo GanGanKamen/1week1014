@@ -7,7 +7,7 @@ public class Character : MonoBehaviour
     private Rigidbody2D rb;
 
     [SerializeField] private float moveSpeed;
-    [SerializeField] private GameObject body;
+    public GameObject body;
     [SerializeField] private GameObject hands;
     [SerializeField] private GameObject foots;
     [SerializeField] private GameObject wing;
@@ -34,15 +34,19 @@ public class Character : MonoBehaviour
 
     public bool flying = false;
 
-    [SerializeField] private Collider2D[] colliders;
+    private CapsuleCollider2D capsuleCollider;
+    [SerializeField] private Vector2 newCapsuleSize; //x:OffestY y:SizeY
 
     public bool muteki = false;
 
+    private Animator animator;
 
     public AudioSource voiceAudio;
     public AudioSource seAudio;
     [SerializeField] private AudioClip[] seS;
     [SerializeField] private AudioClip[] voices;
+
+    private AudioClip stepSE;
     // Start is called before the first frame update
     void Start()
     {
@@ -51,6 +55,11 @@ public class Character : MonoBehaviour
         direction = true;
         partHp = hp;
         canJump = false;
+
+        capsuleCollider = GetComponent<CapsuleCollider2D>();
+        animator = GetComponent<Animator>();
+
+        stepSE = seS[2];
     }
 
     // Update is called once per frame
@@ -84,6 +93,11 @@ public class Character : MonoBehaviour
             HpDecrease();
             prePosX = transform.position.x;
         }
+
+        else
+        {
+            animator.SetBool("Walk", false);
+        }
     }
 
     private void PartsDocking()
@@ -99,6 +113,9 @@ public class Character : MonoBehaviour
         if (hasFoots == true && foots.activeSelf == false)
         {
             foots.SetActive(true);
+            capsuleCollider.offset = new Vector2(capsuleCollider.offset.x, newCapsuleSize.x);
+            capsuleCollider.size = new Vector2(capsuleCollider.size.x, newCapsuleSize.y);
+            stepSE = seS[3];
         }
         if (hasHead == true && head.activeSelf == false)
         {
@@ -138,6 +155,14 @@ public class Character : MonoBehaviour
     public void CharacterMove(float moveDirection)
     {
         transform.Translate(moveDirection * moveSpeed * Time.deltaTime, 0, 0);
+        if (canJump)
+        {
+            animator.SetBool("Walk", true);
+        }
+        else
+        {
+            animator.SetBool("Walk", false);
+        }
     }
 
     public void UseDoor()
@@ -152,16 +177,19 @@ public class Character : MonoBehaviour
         Debug.Log("Jump");
         rb.AddForce(new Vector2(0, jumpPower), ForceMode2D.Impulse);
         SoundManager.PlaySEOneTime(seAudio, seS[0]);
+        animator.SetTrigger("Jump");
+    }
+
+    public void StepSound()
+    {
+        SoundManager.PlaySEOneTime(seAudio, stepSE);
     }
 
     private void Fly()
     {
         if (rb.isKinematic == false) rb.isKinematic = true;
         if (SystemCtrl.canCtrl == true) SystemCtrl.canCtrl = false;
-        for (int i = 0; i < colliders.Length; i++)
-        {
-            if (colliders[i].isTrigger == false) colliders[i].isTrigger = true;
-        }
+        capsuleCollider.isTrigger = true;
         transform.Translate(0, moveSpeed * 2 * Time.deltaTime, 0);
     }
 
