@@ -2003,7 +2003,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audios:
-  - {fileID: 8300000, guid: df7617876a9d90b42a07e3ffa7095718, type: 3}
+  - {fileID: 8300000, guid: 4ba2de368bb20ab41b983bb5de81e2ae, type: 3}
   - {fileID: 8300000, guid: 866be98a9cedd4c46bb29a3a6c28316f, type: 3}
 --- !u!1 &1922897131
 GameObject:
@@ -2268,6 +2268,11 @@ PrefabInstance:
       propertyPath: nextDoor
       value: 
       objectReference: {fileID: 1776657201}
+    - target: {fileID: 2407830277434235350, guid: 977d6c48a218b0c4ca8594708a62bbb0,
+        type: 3}
+      propertyPath: audios.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 4ba2de368bb20ab41b983bb5de81e2ae, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 977d6c48a218b0c4ca8594708a62bbb0, type: 3}
 --- !u!1001 &2496665484015564926
@@ -2282,6 +2287,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: MainCanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 2496665484169894761, guid: 6d8fce8f25288414eb92d81f7cf0cc42,
+        type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 1676912155}
     - target: {fileID: 2496665484169894760, guid: 6d8fce8f25288414eb92d81f7cf0cc42,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2387,11 +2397,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2496665484169894761, guid: 6d8fce8f25288414eb92d81f7cf0cc42,
-        type: 3}
-      propertyPath: player
-      value: 
-      objectReference: {fileID: 1676912155}
     - target: {fileID: 2496665484169894758, guid: 6d8fce8f25288414eb92d81f7cf0cc42,
         type: 3}
       propertyPath: player
