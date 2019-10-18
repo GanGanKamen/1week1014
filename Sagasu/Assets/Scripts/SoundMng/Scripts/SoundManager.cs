@@ -78,12 +78,21 @@ public class SoundManager : MonoBehaviour
 
     public static void PlaySEOneTime(AudioSource audioSource,AudioClip clip)
     {
+        audioSource.loop = false;
         audioSource.PlayOneShot(clip);
     }
 
     public static void PlaySEOneTime(AudioSource audioSource, AudioClip clip, float OptionVolume) //ゲームオプションの音量調節に適応するSE再生
     {
+        audioSource.loop = false;
         audioSource.volume = OptionVolume;
         audioSource.PlayOneShot(clip);
+    }
+
+    public static void PlaySELoop(AudioSource audioSource, AudioClip clip)
+    {
+        audioSource.loop = true;
+        audioSource.clip = clip;
+        audioSource.Play();
     }
 }

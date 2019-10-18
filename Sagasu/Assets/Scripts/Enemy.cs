@@ -9,18 +9,22 @@ public class Enemy : MonoBehaviour
     public enum Pattern
     {
         Patrol,
-        Stop
+        Stop,
+        GameOver
     }
 
     public Pattern pattern = Pattern.Patrol;
     [SerializeField] private Vector2 twoPoint;
     private float posX;
     private int direction;
+
     // Start is called before the first frame update
     void Start()
     {
         posX = transform.position.x;
         direction = 1;
+
+        SoundManager.PlayBGM(GetComponent<AudioSource>());
     }
 
     // Update is called once per frame
@@ -31,7 +35,6 @@ public class Enemy : MonoBehaviour
         {
             case Pattern.Patrol:
                 Patrol();
-
                 break;
         }
     }

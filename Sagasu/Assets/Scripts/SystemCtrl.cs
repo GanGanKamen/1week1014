@@ -32,9 +32,23 @@ public class SystemCtrl : MonoBehaviour
     {
         if(player.hp <= 0 && canCtrl == true)
         {
-            log.text = "Game Over";
             canCtrl = false;
-            SoundManager.PlaySEOneTime(player.voiceAudio, audios[0]);
+            StartCoroutine(BackToTitle());
         }
+    }
+
+    private IEnumerator BackToTitle()
+    {
+        if (log.text == "Game Over") yield break;
+        log.text = "Game Over";
+        SoundManager.PlaySEOneTime(player.voiceAudio, audios[0]);
+        canCtrl = false;
+        foreach(GameObject enemyObj in GameObject.FindGameObjectsWithTag("Enemy"))
+        {
+            enemyObj.GetComponent<Enemy>().pattern = Enemy.Pattern.GameOver;
+        }
+        yield return new WaitForSeconds(2f);
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Title");
+        yield break;
     }
 }

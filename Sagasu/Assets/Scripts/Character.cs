@@ -58,7 +58,7 @@ public class Character : MonoBehaviour
     {
         Direction();
         PartsDocking();
-        if(flying == true) Fly();
+        if (flying == true) Fly();
     }
 
     private void HpDecrease()
@@ -69,12 +69,12 @@ public class Character : MonoBehaviour
 
     private void Direction()
     {
-        if(transform.position.x != prePosX)
+        if (transform.position.x != prePosX)
         {
-            if(transform.position.x > prePosX)
+            if (transform.position.x > prePosX)
             {
                 direction = true;
-                body.transform.eulerAngles = new Vector3(0,0,0);
+                body.transform.eulerAngles = new Vector3(0, 0, 0);
             }
             else
             {
@@ -88,19 +88,19 @@ public class Character : MonoBehaviour
 
     private void PartsDocking()
     {
-        if(hasHands == true && hands.activeSelf == false)
+        if (hasHands == true && hands.activeSelf == false)
         {
             hands.SetActive(true);
         }
-        if(hasWing == true && wing.activeSelf == false)
+        if (hasWing == true && wing.activeSelf == false)
         {
             wing.SetActive(true);
         }
-        if(hasFoots == true && foots.activeSelf == false)
+        if (hasFoots == true && foots.activeSelf == false)
         {
             foots.SetActive(true);
         }
-        if(hasHead == true && head.activeSelf == false)
+        if (hasHead == true && head.activeSelf == false)
         {
             head.SetActive(true);
         }
@@ -113,19 +113,26 @@ public class Character : MonoBehaviour
         enemy.pattern = Enemy.Pattern.Stop;
         SystemCtrl.canCtrl = false;
         hp -= 10;
-        if(enemy.transform.position.x > transform.position.x)
+        if (enemy.transform.position.x > transform.position.x)
         {
-            rb.AddForce(new Vector2(-jumpPower/2, jumpPower/5), ForceMode2D.Impulse);
+            rb.AddForce(new Vector2(-jumpPower / 2, jumpPower / 5), ForceMode2D.Impulse);
         }
         else
         {
             rb.AddForce(new Vector2(jumpPower / 2, jumpPower / 5), ForceMode2D.Impulse);
         }
         SoundManager.PlaySEOneTime(voiceAudio, voices[0]);
+        enemy.GetComponent<AudioSource>().Stop();
         yield return new WaitForSeconds(3f);
         SystemCtrl.canCtrl = true;
         yield return new WaitForSeconds(1f);
-        enemy.pattern = Enemy.Pattern.Patrol;
+        if (enemy.pattern != Enemy.Pattern.GameOver)
+        {
+            enemy.pattern = Enemy.Pattern.Patrol;
+            enemy.GetComponent<AudioSource>().Play();
+        }
+
+        yield break;
     }
 
     public void CharacterMove(float moveDirection)
@@ -141,19 +148,19 @@ public class Character : MonoBehaviour
 
     public void Jump()
     {
-        if (hasFoots == false||canJump == false) return;
+        if (hasFoots == false || canJump == false) return;
         Debug.Log("Jump");
-        rb.AddForce(new Vector2(0, jumpPower),ForceMode2D.Impulse);
+        rb.AddForce(new Vector2(0, jumpPower), ForceMode2D.Impulse);
         SoundManager.PlaySEOneTime(seAudio, seS[0]);
     }
 
     private void Fly()
     {
         if (rb.isKinematic == false) rb.isKinematic = true;
-        if(SystemCtrl.canCtrl == true) SystemCtrl.canCtrl = false;
+        if (SystemCtrl.canCtrl == true) SystemCtrl.canCtrl = false;
         for (int i = 0; i < colliders.Length; i++)
         {
-            if(colliders[i].isTrigger == false)colliders[i].isTrigger = true;
+            if (colliders[i].isTrigger == false) colliders[i].isTrigger = true;
         }
         transform.Translate(0, moveSpeed * 2 * Time.deltaTime, 0);
     }
@@ -166,25 +173,25 @@ public class Character : MonoBehaviour
             switch (newItem.partsCategory)
             {
                 case Item.PartsCategory.hand:
-                    if(hasHands == false)
+                    if (hasHands == false)
                     {
                         hasHands = true;
                     }
                     break;
                 case Item.PartsCategory.foot:
-                    if(hasFoots == false)
+                    if (hasFoots == false)
                     {
                         hasFoots = true;
                     }
                     break;
                 case Item.PartsCategory.wing:
-                    if(hasWing == false)
+                    if (hasWing == false)
                     {
                         hasWing = true;
                     }
                     break;
                 case Item.PartsCategory.head:
-                    if(hasHead == false)
+                    if (hasHead == false)
                     {
                         hasHead = true;
                         eyes.Flash();
@@ -204,6 +211,7 @@ public class Character : MonoBehaviour
         if (collision.CompareTag("Wind") && hasWing == true && flying == false && SystemCtrl.canCtrl == true)
         {
             flying = true;
+            SoundManager.PlaySELoop(seAudio, seS[1]);
         }
     }
 

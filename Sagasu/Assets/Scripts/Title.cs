@@ -19,6 +19,12 @@ public class Title : MonoBehaviour
 
     public void NextScene(string name)
     {
+        StartCoroutine(StartChangeScene(name));
+    }
+
+    private IEnumerator StartChangeScene(string name)
+    {
+        yield return new WaitForSeconds(2f);
         SceneManager.LoadScene(name);
     }
 }

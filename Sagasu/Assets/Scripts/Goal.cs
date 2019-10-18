@@ -6,6 +6,7 @@ public class Goal : MonoBehaviour
 {
     [SerializeField] private UnityEngine.UI.Text log;
     [SerializeField] private Character player;
+    [SerializeField] private string nextSceneName;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,10 +21,19 @@ public class Goal : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player"))
+        if (collision.CompareTag("Player") && log.text != "Stage Clear")
         {
-            log.text = "Game Clear";
-            player.flying = false;
+            StartCoroutine(GoToNextStage(nextSceneName));
         }
+    }
+
+    private IEnumerator GoToNextStage(string name)
+    {
+        if (log.text == "Stage Clear") yield break;
+        log.text = "Stage Clear";
+        player.flying = false;
+        yield return new WaitForSeconds(2f);
+        UnityEngine.SceneManagement.SceneManager.LoadScene(name);
+        yield break;
     }
 }
