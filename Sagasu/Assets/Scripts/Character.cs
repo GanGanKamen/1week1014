@@ -37,6 +37,12 @@ public class Character : MonoBehaviour
     [SerializeField] private Collider2D[] colliders;
 
     public bool muteki = false;
+
+
+    public AudioSource voiceAudio;
+    public AudioSource seAudio;
+    [SerializeField] private AudioClip[] seS;
+    [SerializeField] private AudioClip[] voices;
     // Start is called before the first frame update
     void Start()
     {
@@ -115,7 +121,7 @@ public class Character : MonoBehaviour
         {
             rb.AddForce(new Vector2(jumpPower / 2, jumpPower / 5), ForceMode2D.Impulse);
         }
-
+        SoundManager.PlaySEOneTime(voiceAudio, voices[0]);
         yield return new WaitForSeconds(3f);
         SystemCtrl.canCtrl = true;
         yield return new WaitForSeconds(1f);
@@ -138,6 +144,7 @@ public class Character : MonoBehaviour
         if (hasFoots == false||canJump == false) return;
         Debug.Log("Jump");
         rb.AddForce(new Vector2(0, jumpPower),ForceMode2D.Impulse);
+        SoundManager.PlaySEOneTime(seAudio, seS[0]);
     }
 
     private void Fly()

@@ -11,6 +11,8 @@ public class SystemCtrl : MonoBehaviour
 
     [SerializeField] private Character player;
     [SerializeField] private UnityEngine.UI.Text log;
+
+    [SerializeField] private AudioClip[] audios;
     // Start is called before the first frame update
     void Start()
     {
@@ -32,6 +34,7 @@ public class SystemCtrl : MonoBehaviour
         {
             log.text = "Game Over";
             canCtrl = false;
+            SoundManager.PlaySEOneTime(player.voiceAudio, audios[0]);
         }
     }
 }
