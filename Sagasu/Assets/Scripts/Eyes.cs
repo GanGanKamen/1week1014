@@ -5,12 +5,12 @@ using UnityEngine;
 public class Eyes : MonoBehaviour
 {
     [SerializeField] private Transform mask;
-    [SerializeField] private float startScale;
-    [SerializeField] private float overScale;
+    public float startScale;
+    public float overScale;
     [SerializeField] private float speed;
-    private bool flash = false;
-    private bool getDark = false;
-    private float nowScale;
+    public bool flash = false;
+    public bool getDark;
+    public float nowScale;
     // Start is called before the first frame update
     void Start()
     {
@@ -33,7 +33,7 @@ public class Eyes : MonoBehaviour
                 flash = false;
             }
         }
-        else if (getDark)
+        if (getDark)
         {
             if (nowScale >startScale)
             {

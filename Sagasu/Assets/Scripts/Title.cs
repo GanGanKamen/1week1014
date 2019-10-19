@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class Title : MonoBehaviour
 {
+    [SerializeField] private Animator characterAnim;
+    private AnimatorStateInfo stateInfo;
     // Start is called before the first frame update
     void Start()
     {
@@ -14,7 +16,7 @@ public class Title : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        stateInfo = characterAnim.GetCurrentAnimatorStateInfo(0);
     }
 
     public void NextScene(string name)
@@ -24,7 +26,11 @@ public class Title : MonoBehaviour
 
     private IEnumerator StartChangeScene(string name)
     {
-        yield return new WaitForSeconds(2f);
+        characterAnim.SetTrigger("Break");
+        while (!stateInfo.IsName("Over"))
+        {
+            yield return null;
+        }
         SceneManager.LoadScene(name);
     }
 }
