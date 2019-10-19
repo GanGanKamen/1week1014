@@ -57,12 +57,13 @@ public class Door : MonoBehaviour
         animator.SetBool("Close", true);
         nextDoor.animator.SetBool("Open", false);
         nextDoor.animator.SetBool("Close", true);
-
+        character.body.SetActive(true);
+        character.canJump = true;
         while (!stateInfo.IsName("Door_Idle"))
         {
             yield return null;
         }
-        character.body.SetActive(true);
+
         SystemCtrl.canCtrl = true;
         character.onDoor = nextDoor;
         yield break;

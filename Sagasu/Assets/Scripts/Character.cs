@@ -12,7 +12,7 @@ public class Character : MonoBehaviour
     [SerializeField] private GameObject foots;
     [SerializeField] private GameObject wing;
     [SerializeField] private GameObject head;
-    [SerializeField] private Eyes eyes;
+    public Eyes eyes;
     public bool hasHands = false;
     public bool hasFoots = false;
     public bool hasWing = false;
@@ -23,7 +23,7 @@ public class Character : MonoBehaviour
 
     public Door onDoor;
 
-    [SerializeField] private bool canJump;
+    public bool canJump;
     [SerializeField] private float jumpPower;
 
     public float hp;
@@ -47,6 +47,8 @@ public class Character : MonoBehaviour
     [SerializeField] private AudioClip[] voices;
 
     private AudioClip stepSE;
+
+    [SerializeField] private GameObject frontBody,frontHead;
     // Start is called before the first frame update
     void Start()
     {
@@ -80,17 +82,21 @@ public class Character : MonoBehaviour
     {
         if (transform.position.x != prePosX)
         {
-            if (transform.position.x > prePosX)
+            if (SystemCtrl.canCtrl)
             {
-                direction = true;
-                body.transform.eulerAngles = new Vector3(0, 0, 0);
+                if (transform.position.x > prePosX)
+                {
+                    direction = true;
+                    body.transform.eulerAngles = new Vector3(0, 0, 0);
+                }
+                else
+                {
+                    direction = false;
+                    body.transform.eulerAngles = new Vector3(0, 180, 0);
+                }
+                HpDecrease();
             }
-            else
-            {
-                direction = false;
-                body.transform.eulerAngles = new Vector3(0, 180, 0);
-            }
-            HpDecrease();
+
             prePosX = transform.position.x;
         }
 
@@ -140,6 +146,7 @@ public class Character : MonoBehaviour
         }
         SoundManager.PlaySEOneTime(voiceAudio, voices[0]);
         enemy.GetComponent<AudioSource>().Stop();
+        animator.SetTrigger("Hit");
         yield return new WaitForSeconds(3f);
         SystemCtrl.canCtrl = true;
         yield return new WaitForSeconds(1f);
@@ -185,9 +192,14 @@ public class Character : MonoBehaviour
         SoundManager.PlaySEOneTime(seAudio, stepSE);
     }
 
+    public void Dead()
+    {
+        animator.SetTrigger("Dead");
+    }
+
     private void Fly()
     {
-        if (rb.isKinematic == false) rb.isKinematic = true;
+        //if (rb.isKinematic == false) rb.isKinematic = true;
         if (SystemCtrl.canCtrl == true) SystemCtrl.canCtrl = false;
         capsuleCollider.isTrigger = true;
         transform.Translate(0, moveSpeed * 2 * Time.deltaTime, 0);
@@ -239,6 +251,10 @@ public class Character : MonoBehaviour
         if (collision.CompareTag("Wind") && hasWing == true && flying == false && SystemCtrl.canCtrl == true)
         {
             flying = true;
+            Destroy(rb);
+            body.SetActive(false);
+            frontBody.SetActive(true);
+            if (hasHead) frontHead.SetActive(true);
             SoundManager.PlaySELoop(seAudio, seS[1]);
         }
     }

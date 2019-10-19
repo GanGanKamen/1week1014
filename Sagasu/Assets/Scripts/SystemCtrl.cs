@@ -42,6 +42,7 @@ public class SystemCtrl : MonoBehaviour
         if (log.text == "Game Over") yield break;
         log.text = "Game Over";
         SoundManager.PlaySEOneTime(player.voiceAudio, audios[0]);
+        player.Dead();
         canCtrl = false;
         foreach(GameObject enemyObj in GameObject.FindGameObjectsWithTag("Enemy"))
         {

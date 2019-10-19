@@ -128,7 +128,7 @@ MonoBehaviour:
   body: {fileID: 7883221479036986273}
   speed: 2
   pattern: 0
-  twoPoint: {x: 8, y: 15}
+  twoPoint: {x: 2, y: 10}
 --- !u!61 &7883221479621987653
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -166,7 +166,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 243174911538111504, guid: 60619072a40f8324ba01ff0fb219669a,
     type: 2}
-  m_audioClip: {fileID: 8300000, guid: fbad118b613baa541837248bd332c6d1, type: 3}
+  m_audioClip: {fileID: 8300000, guid: fbf552732fe4da24fae475b4b90e8b84, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1

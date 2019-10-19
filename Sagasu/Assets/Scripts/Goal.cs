@@ -32,6 +32,7 @@ public class Goal : MonoBehaviour
         if (log.text == "Stage Clear") yield break;
         log.text = "Stage Clear";
         player.flying = false;
+        if (player.hasHead) player.eyes.Dark();
         yield return new WaitForSeconds(2f);
         UnityEngine.SceneManagement.SceneManager.LoadScene(name);
         yield break;
