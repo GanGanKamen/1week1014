@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class Title : MonoBehaviour
 {
+    [SerializeField] private OPEyes eyes;
     [SerializeField] private Animator characterAnim;
     private AnimatorStateInfo stateInfo;
     // Start is called before the first frame update
@@ -28,6 +29,11 @@ public class Title : MonoBehaviour
     {
         characterAnim.SetTrigger("Break");
         while (!stateInfo.IsName("Over"))
+        {
+            yield return null;
+        }
+        eyes.Dark();
+        while (eyes.getDark)
         {
             yield return null;
         }

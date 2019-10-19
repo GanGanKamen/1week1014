@@ -9,7 +9,7 @@ public class Eyes : MonoBehaviour
     public float overScale;
     [SerializeField] private float speed;
     public bool flash = false;
-    public bool getDark;
+    public bool getDark = false;
     public float nowScale;
     // Start is called before the first frame update
     void Start()
@@ -33,7 +33,7 @@ public class Eyes : MonoBehaviour
                 flash = false;
             }
         }
-        if (getDark)
+        else if (getDark)
         {
             if (nowScale >startScale)
             {
