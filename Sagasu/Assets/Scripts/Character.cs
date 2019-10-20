@@ -49,6 +49,9 @@ public class Character : MonoBehaviour
     private AudioClip stepSE;
 
     [SerializeField] private GameObject frontBody,frontHead;
+
+    [SerializeField] private GameObject skull;
+    [SerializeField] private GameObject blood;
     // Start is called before the first frame update
     void Start()
     {
@@ -76,6 +79,7 @@ public class Character : MonoBehaviour
     {
         if (SystemCtrl.canCtrl == false || hp <= 0 || muteki == true) return;
         hp -= hpDecrease * Time.deltaTime;
+        if (hp <= partHp / 2 && blood.activeSelf == false) blood.SetActive(true);
     }
 
     private void Direction()
@@ -132,10 +136,11 @@ public class Character : MonoBehaviour
     private IEnumerator Damaged(Enemy enemy)
     {
         if (enemy.pattern != Enemy.Pattern.Patrol) yield break;
-        Debug.Log("Hit");
+        enemy.GetComponent<Animator>().SetBool("Down", true);
         enemy.pattern = Enemy.Pattern.Stop;
         SystemCtrl.canCtrl = false;
         hp -= 10;
+        if (hp <= partHp / 2 && blood.activeSelf == false) blood.SetActive(true);
         if (enemy.transform.position.x > transform.position.x)
         {
             rb.AddForce(new Vector2(-jumpPower / 2, jumpPower / 5), ForceMode2D.Impulse);
@@ -147,12 +152,15 @@ public class Character : MonoBehaviour
         SoundManager.PlaySEOneTime(voiceAudio, voices[0]);
         enemy.GetComponent<AudioSource>().Stop();
         animator.SetTrigger("Hit");
+        skull.SetActive(true);
         yield return new WaitForSeconds(3f);
         SystemCtrl.canCtrl = true;
+        skull.SetActive(false);
         yield return new WaitForSeconds(1f);
         if (enemy.pattern != Enemy.Pattern.GameOver)
         {
             enemy.pattern = Enemy.Pattern.Patrol;
+            enemy.GetComponent<Animator>().SetBool("Down", false);
             enemy.GetComponent<AudioSource>().Play();
         }
 
@@ -239,6 +247,7 @@ public class Character : MonoBehaviour
                     break;
             }
             hpCtrl.HpPlus();
+            if (hp > partHp / 2 && blood.activeSelf) blood.SetActive(false);
             Destroy(collision.gameObject);
         }
 
@@ -250,6 +259,7 @@ public class Character : MonoBehaviour
 
         if (collision.CompareTag("Wind") && hasWing == true && flying == false && SystemCtrl.canCtrl == true)
         {
+            transform.position = new Vector3(collision.transform.position.x, transform.position.y, 0);
             flying = true;
             Destroy(rb);
             body.SetActive(false);

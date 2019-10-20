@@ -48,7 +48,7 @@ public class SystemCtrl : MonoBehaviour
         {
             enemyObj.GetComponent<Enemy>().pattern = Enemy.Pattern.GameOver;
         }
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(4f);
         UnityEngine.SceneManagement.SceneManager.LoadScene("Title");
         yield break;
     }
