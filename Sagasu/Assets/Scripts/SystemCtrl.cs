@@ -13,6 +13,8 @@ public class SystemCtrl : MonoBehaviour
     [SerializeField] private UnityEngine.UI.Text log;
 
     [SerializeField] private AudioClip[] audios;
+    [SerializeField] private AudioSource normalAudio;
+    [SerializeField] private AudioSource loopAudio;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,6 +22,8 @@ public class SystemCtrl : MonoBehaviour
 
         fadeCanvas = Resources.Load<GameObject>("FadeCanvas");
         HpBar = Resources.Load<GameObject>("Hpbar");
+
+        SoundManager.PlaySELoop(loopAudio, audios[1]);
     }
 
     // Update is called once per frame
@@ -41,14 +45,14 @@ public class SystemCtrl : MonoBehaviour
     {
         if (log.text == "Game Over") yield break;
         log.text = "Game Over";
-        SoundManager.PlaySEOneTime(player.voiceAudio, audios[0]);
+        SoundManager.PlaySEOneTime(normalAudio, audios[0]);
         player.Dead();
         canCtrl = false;
         foreach(GameObject enemyObj in GameObject.FindGameObjectsWithTag("Enemy"))
         {
             enemyObj.GetComponent<Enemy>().pattern = Enemy.Pattern.GameOver;
         }
-        yield return new WaitForSeconds(4f);
+        yield return new WaitForSeconds(5f);
         UnityEngine.SceneManagement.SceneManager.LoadScene("Title");
         yield break;
     }

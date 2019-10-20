@@ -43,5 +43,6 @@ public class OPEyes : MonoBehaviour
     {
         if (nowScale == overScale) return;
         getDark = true;
+        GetComponent<AudioSource>().Play();
     }
 }

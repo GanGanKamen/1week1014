@@ -11,9 +11,13 @@ public class Eyes : MonoBehaviour
     public bool flash = false;
     public bool getDark = false;
     public float nowScale;
+
+    private AudioSource audioSource;
+    [SerializeField] private AudioClip[] clips;
     // Start is called before the first frame update
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         nowScale = startScale;
     }
 
@@ -51,11 +55,13 @@ public class Eyes : MonoBehaviour
     {
         if (nowScale == overScale) return;
         flash = true;
+        SoundManager.PlaySEOneTime(audioSource, clips[0]);
     }
 
     public void Dark()
     {
         if (nowScale == startScale) return;
         getDark = true;
+        //SoundManager.PlaySEOneTime(audioSource, clips[1]);
     }
 }

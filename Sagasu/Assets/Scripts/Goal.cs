@@ -33,7 +33,8 @@ public class Goal : MonoBehaviour
         log.text = "Stage Clear";
         player.flying = false;
         if (player.hasHead) player.eyes.Dark();
-        yield return new WaitForSeconds(2f);
+        SoundManager.PlayBGM(GetComponent<AudioSource>());
+        yield return new WaitForSeconds(5f);
         UnityEngine.SceneManagement.SceneManager.LoadScene(name);
         yield break;
     }

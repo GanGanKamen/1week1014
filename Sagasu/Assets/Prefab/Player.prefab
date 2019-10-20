@@ -4868,6 +4868,7 @@ GameObject:
   - component: {fileID: 1715049041}
   - component: {fileID: 1715049042}
   - component: {fileID: 1715049043}
+  - component: {fileID: 785787529}
   m_Layer: 0
   m_Name: Eyes
   m_TagString: Untagged
@@ -4921,6 +4922,106 @@ MonoBehaviour:
   flash: 0
   getDark: 0
   nowScale: 0
+  clips:
+  - {fileID: 8300000, guid: e5502476650e56a43b3bc32b3beaac2a, type: 3}
+  - {fileID: 8300000, guid: 0e9e69f146d4ec5429a02207592af934, type: 3}
+--- !u!82 &785787529
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1715049040}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 243964136755708302, guid: 60619072a40f8324ba01ff0fb219669a,
+    type: 2}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &456603073599994011
 GameObject:
   m_ObjectHideFlags: 0
@@ -5994,6 +6095,10 @@ MonoBehaviour:
   - {fileID: 8300000, guid: cd3ea5aa500a01c4caa40f124fcbede9, type: 3}
   - {fileID: 8300000, guid: c48df0fc34463ab4395fe88a57f5d10c, type: 3}
   - {fileID: 8300000, guid: 200903a0257537249ba596e46302505d, type: 3}
+  - {fileID: 8300000, guid: 12391bec10aa8314f856bec5da53521f, type: 3}
+  - {fileID: 8300000, guid: 8674c9b24881aa247b086abb703f5282, type: 3}
+  - {fileID: 8300000, guid: ccb053650d856d24e895053e36c480d7, type: 3}
+  - {fileID: 8300000, guid: 11789f432d8d7ae47a419178eb43e21f, type: 3}
   voices:
   - {fileID: 8300000, guid: 2c3473d961eee1f4bbda28f6e492752a, type: 3}
   frontBody: {fileID: 2644518262894811704}
@@ -6431,13 +6536,13 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 19800000, guid: bc98890f6028f444eaa7789bde5e2eeb, type: 3}
-      propertyPath: looping
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 19900000, guid: bc98890f6028f444eaa7789bde5e2eeb, type: 3}
       propertyPath: m_SortingOrder
       value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 19800000, guid: bc98890f6028f444eaa7789bde5e2eeb, type: 3}
+      propertyPath: looping
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 19800002, guid: bc98890f6028f444eaa7789bde5e2eeb, type: 3}
       propertyPath: looping

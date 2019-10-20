@@ -24,7 +24,7 @@ public class PlayerCtrl : MonoBehaviour
             verticalTrigger = false;
         }
 
-        MutekiKey();
+        //MutekiKey();
     }
 
     private void KeyCtrl()

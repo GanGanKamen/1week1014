@@ -79,7 +79,11 @@ public class Character : MonoBehaviour
     {
         if (SystemCtrl.canCtrl == false || hp <= 0 || muteki == true) return;
         hp -= hpDecrease * Time.deltaTime;
-        if (hp <= partHp / 2 && blood.activeSelf == false) blood.SetActive(true);
+        if (hp <= partHp / 2 && blood.activeSelf == false)
+        {
+            blood.SetActive(true);
+            SoundManager.PlaySEOneTime(seAudio, seS[5]);
+        } 
     }
 
     private void Direction()
@@ -140,7 +144,11 @@ public class Character : MonoBehaviour
         enemy.pattern = Enemy.Pattern.Stop;
         SystemCtrl.canCtrl = false;
         hp -= 10;
-        if (hp <= partHp / 2 && blood.activeSelf == false) blood.SetActive(true);
+        if (hp <= partHp / 2 && blood.activeSelf == false)
+        {
+            blood.SetActive(true);
+            SoundManager.PlaySEOneTime(seAudio, seS[5]);
+        }
         if (enemy.transform.position.x > transform.position.x)
         {
             rb.AddForce(new Vector2(-jumpPower / 2, jumpPower / 5), ForceMode2D.Impulse);
@@ -248,12 +256,21 @@ public class Character : MonoBehaviour
             }
             hpCtrl.HpPlus();
             if (hp > partHp / 2 && blood.activeSelf) blood.SetActive(false);
+            SoundManager.PlaySEOneTime(seAudio, seS[7]);
             Destroy(collision.gameObject);
         }
 
         if (collision.CompareTag("Jump"))
         {
             canJump = true;
+            if (hasFoots)
+            {
+                SoundManager.PlaySEOneTime(seAudio, seS[4]);
+            }
+            else
+            {
+                SoundManager.PlaySEOneTime(seAudio, seS[6]);
+            }
             Debug.Log("jumpEnter");
         }
 
@@ -266,6 +283,7 @@ public class Character : MonoBehaviour
             frontBody.SetActive(true);
             if (hasHead) frontHead.SetActive(true);
             SoundManager.PlaySELoop(seAudio, seS[1]);
+            SoundManager.PlayBGM(collision.GetComponent<AudioSource>());
         }
     }
 
@@ -274,6 +292,7 @@ public class Character : MonoBehaviour
         if (collision.CompareTag("Jump"))
         {
             canJump = false;
+            animator.SetBool("Walk", false);
             Debug.Log("jumpExit");
         }
     }
