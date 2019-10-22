@@ -7,10 +7,11 @@ public class Goal : MonoBehaviour
     [SerializeField] private UnityEngine.UI.Text log;
     [SerializeField] private Character player;
     [SerializeField] private string nextSceneName;
+    private SystemCtrl system;
     // Start is called before the first frame update
     void Start()
     {
-        
+        system = GameObject.FindGameObjectWithTag("System").GetComponent<SystemCtrl>();
     }
 
     // Update is called once per frame
@@ -33,6 +34,7 @@ public class Goal : MonoBehaviour
         log.text = "Stage Clear";
         player.flying = false;
         if (player.hasHead) player.eyes.Dark();
+        system.BGM.Stop();
         SoundManager.PlayBGM(GetComponent<AudioSource>());
         yield return new WaitForSeconds(5f);
         UnityEngine.SceneManagement.SceneManager.LoadScene(name);

@@ -1979,6 +1979,16 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 4955027317991727041}
+    - target: {fileID: 3438714468103203834, guid: 6d8fce8f25288414eb92d81f7cf0cc42,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3438714468103203834, guid: 6d8fce8f25288414eb92d81f7cf0cc42,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2496665484942213120, guid: 6d8fce8f25288414eb92d81f7cf0cc42,
         type: 3}
       propertyPath: m_AnchorMax.x

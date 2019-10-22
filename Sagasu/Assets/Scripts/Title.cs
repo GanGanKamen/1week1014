@@ -10,9 +10,11 @@ public class Title : MonoBehaviour
     private AnimatorStateInfo stateInfo;
 
     [SerializeField] private AudioSource enviomentSource;
+    [SerializeField] private AudioSource BGM;
     // Start is called before the first frame update
     void Start()
     {
+        BGM.Play();
         enviomentSource.Play();
     }
 
@@ -39,7 +41,7 @@ public class Title : MonoBehaviour
         {
             yield return null;
         }
-
+        BGM.Stop();
         eyes.Dark();
         while (eyes.getDark)
         {

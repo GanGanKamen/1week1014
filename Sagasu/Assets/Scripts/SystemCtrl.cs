@@ -15,6 +15,7 @@ public class SystemCtrl : MonoBehaviour
     [SerializeField] private AudioClip[] audios;
     [SerializeField] private AudioSource normalAudio;
     [SerializeField] private AudioSource loopAudio;
+    public AudioSource BGM;
     // Start is called before the first frame update
     void Start()
     {
@@ -24,6 +25,7 @@ public class SystemCtrl : MonoBehaviour
         HpBar = Resources.Load<GameObject>("Hpbar");
 
         SoundManager.PlaySELoop(loopAudio, audios[1]);
+        BGM.Play();
     }
 
     // Update is called once per frame
@@ -52,6 +54,7 @@ public class SystemCtrl : MonoBehaviour
         {
             enemyObj.GetComponent<Enemy>().pattern = Enemy.Pattern.GameOver;
         }
+        BGM.Stop();
         yield return new WaitForSeconds(5f);
         UnityEngine.SceneManagement.SceneManager.LoadScene("Title");
         yield break;
